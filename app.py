@@ -1445,8 +1445,8 @@ def form_footer():
 
 parametros_iniciales = {
     'user': usuario,
-    'mes': mes_sel,
-    'fecha_min': fecha_sel,
+    'fecha_min': dia_laboral(),
+    'mes': ahora().month,
     'tab_visual': 'tabviz2',
     'tab_edit': 'tab-ed2',
     'rbd_propuesta': None,
