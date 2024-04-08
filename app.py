@@ -149,6 +149,7 @@ universidades_inv = {v: k for k, v in universidades.items()}
 # registra la fecha actual (instantánea) en Santiago
 
 ahora = lambda: datetime.now(pytz.timezone('America/Santiago')).date()
+dia_laboral = lambda: min({ahora() + timedelta(days=i) for i in range(14)}.difference(feriados))
 
 # función que crea las opciones de visualización de meses
 
@@ -548,7 +549,8 @@ color = '#2FA4E7'
 linea = html.Hr(style={'borderWidth': '0.3vh', 'width': '100%', 'color': '#104e8b'})
 espacio = html.Br()
 
-fecha_sel = max(ahora(), fecha_inicial)
+# fecha_sel = max(ahora(), fecha_inicial)
+fecha_sel = max(dia_laboral(), fecha_inicial)
 mes_sel = fecha_sel.month
 
 
@@ -1015,12 +1017,12 @@ def fecha_visita():
             html.H5('Seleccione una fecha:'),
             dcc.DatePickerSingle(
                 id='sel-fecha',
-                min_date_allowed=fecha_sel,
+                min_date_allowed=dia_laboral(),
                 max_date_allowed=fecha_final,
                 disabled_days=feriados,
                 first_day_of_week=1,
                 initial_visible_month=str(mes_sel),
-                date=fecha_sel,
+                date=dia_laboral(),
                 display_format='D MMM YYYY',
                 stay_open_on_select=False, # MANTIENE ABIERTO EL SELECTOR DE FECHA
                 show_outside_days=False,
@@ -1253,7 +1255,7 @@ def mod_fecha(datos, fecha):
                 html.H5(['Fecha:']),
                 dcc.DatePickerSingle(
                     id='mod-fecha',
-                    min_date_allowed=fecha_sel,
+                    min_date_allowed=dia_laboral(),
                     max_date_allowed=fecha_final,
                     disabled_days=feriados,
                     first_day_of_week=1,
